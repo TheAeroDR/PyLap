@@ -1,5 +1,6 @@
 *.pyc
 
+/modules/pylap/*.so
 
 Ionosphere/__pycache__/*
 
