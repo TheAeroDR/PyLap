@@ -31,7 +31,7 @@ from Plotting import plot_ray_iono_slice as plot_iono
 
 import matplotlib.pyplot as plt
 
-plt.switch_backend('tkagg')
+plt.switch_backend('qtagg')
 
 #
 # setup general stuff

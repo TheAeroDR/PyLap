@@ -15,7 +15,7 @@ import ipdb
 import os
 from geographiclib.geodesic import Geodesic
 geod = Geodesic.WGS84
-plt.switch_backend('tkagg')
+plt.switch_backend('qtagg')
 R12 = 100                    #M R12 index
 
 df = pnd.read_csv("Examples/run_raytraces.csv")

@@ -159,14 +159,12 @@ from Maths import earth_radius_wgs84
 from Maths import wgs842gc_lat
 from Maths import raz2latlon
 from Maths import eff_coll_freq
-from Maths import iri2016_firi_interp
+from Maths import iri2020_firi_interp
 from pylap.dop_spread_eq import dop_spread_eq
 from pylap.nrlmsise00 import nrlmsise00
-from pylap.igrf2016 import igrf2016
+from pylap.igrf2020 import igrf2020
 from pylap.irreg_strength import irreg_strength
-from pylap.iri2016 import iri2016
-from pylap.iri2012 import iri2012
-from pylap.iri2007 import iri2007
+from pylap.iri2020 import iri2020
 #
 #function [iono_pf_grid,iono_pf_grid_5,collision_freq,irreg,iono_te_grid] = ...
 #    gen_iono_grid_2d(origin_lat, origin_lon, R12, UT, azim, ...
@@ -290,7 +288,7 @@ def gen_iono_grid_2d(origin_lat, origin_lon, R12, UT, azim,
         #M call geomag field routine at phase screen height of irregularities
         long = lon
         if long < 0: long = long + 360 
-        mag_field = igrf2016(lat, lon, UT, 300)
+        mag_field = igrf2020(lat, lon, UT, 300)
         dip = mag_field[7]
         dec = mag_field[9]
         
@@ -342,17 +340,17 @@ def gen_iono_profile(lat, lon, num_heights, start_height, height_inc,
                 iri_options)       
     
       if doppler_flag:
-        iono5, iono_extra5 = iri2016_firi_interp.iri2016_firi_interp\
+        iono5, iono_extra5 = iri2020_firi_interp.iri2020_firi_interp\
                 (lat, lon, R12, UT_5, start_height, height_inc,
                 num_heights, iri_options)           
     else:
           #M call IRI 2016	    
-      iono, iono_extra = iri2016(lat, lon, R12, UT, start_height,
+      iono, iono_extra = iri2020(lat, lon, R12, UT, start_height,
                             height_inc, num_heights, iri_options)
     
       if doppler_flag:
-        iono5, iono_extra5 = iri2016(lat, lon, R12, UT_5, #check how its being called, 
-    	        start_height, height_inc, num_heights, iri_options)#check source for iri2016 call
+        iono5, iono_extra5 = iri2020(lat, lon, R12, UT_5, #check how its being called, 
+    	        start_height, height_inc, num_heights, iri_options)#check source for iri2020 call
         
         #M get the electron density (Num electrons per m^3)
     elec_dens = iono[0]

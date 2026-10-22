@@ -12,7 +12,7 @@ It enables varialbes to be saved between using methods
 """
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('QtAgg')
 import matplotlib.pyplot as plt
 import sys
 import platform
@@ -26,7 +26,7 @@ class Plot_2D_slice:
     # determine all machine and operating system dependicies
     # such as font sizes and size of image on scree
     def __init__(self):
-        matplotlib.use('TkAgg')
+        matplotlib.use('QtAgg')
         app = QApplication(sys.argv)
         screen = app.screens()[0]
         dpi= screen.physicalDotsPerInch()

@@ -45,7 +45,7 @@
 #       
 #M
 #M 
-from cgi import print_environ
+
 import numpy as np  # py
 import time
 import ctypes as c
@@ -55,10 +55,9 @@ from pylap.raytrace_2d import raytrace_2d
 from Ionosphere import gen_iono_grid_2d as gen_iono
 from Plotting import plot_ray_iono_slice as plot_iono
 
-
 import matplotlib.pyplot as plt
 
-plt.switch_backend('tkagg')
+plt.switch_backend('qtagg')
 
 
 
@@ -135,6 +134,7 @@ ray_data, ray_path_data, ray_path_state = \
                tol, irregs_flag, iono_en_grid, iono_en_grid_5,
  	       collision_freq, start_height, height_inc, range_inc, irreg)
 
+print('Done generating rays ...')
 
 ################
 ### Figure 1 ###
@@ -186,11 +186,11 @@ ray_data, ray_path_data,ray_path_state = \
 
 start_range = 0
 start_range_idx = int(start_range / range_inc) 
-end_range = 3000
+end_range = 7000
 end_range_idx = int(end_range / range_inc) + 1
 start_ht = start_height
 start_ht_idx = 0
-end_ht = 400
+end_ht = 597
 end_ht_idx = int(end_ht / height_inc) + 1
 iono_pf_subgrid = iono_pf_grid[start_ht_idx:end_ht_idx,start_range_idx:end_range_idx]
 

@@ -81,9 +81,8 @@ import numpy as np
 import sys
 import math
 
-from numpy.core.numerictypes import find_common_type
 #
-from pylap.igrf2016 import igrf2016
+from pylap.igrf2020 import igrf2020
 #
 # function [del_freq_O, del_freq_X] = ...
 #      gm_freq_offset(lat_cp, lon_cp, ht_cp, ray_bearing, freq, plas_freq, UT)
@@ -165,7 +164,7 @@ def h_param(W, theta, OX_mode):
     #M the equation. 
     
     #M stay away from theta = 90 deg as denominator -> 0 here for X mode
-    idx = find_common_type(theta > np.pi / 2 - 1e-5 and theta < np.pi/2 + 1e-5)
+    idx = np.where((theta > np.pi/2 - 1e-5) & (theta < np.pi/2 + 1e-5))
     theta[idx] = theta[idx] - 1e-5
     
     S2 = np.sin(theta) ** 2

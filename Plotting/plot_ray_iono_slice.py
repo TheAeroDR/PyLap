@@ -69,7 +69,7 @@ Created on Fri Jun 12 20:49:47 2020
 
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('QtAgg')
 import matplotlib.pyplot as plt
 import sys
 import platform
@@ -80,7 +80,7 @@ import ipdb
 def plot_ray_iono_slice(iono_grid, start_range, end_range, range_inc,
                 start_height, end_height, height_inc, ray, **kwargs):
 
-    matplotlib.use('TkAgg')
+    matplotlib.use('QtAgg')
   
     
     #M Input consistency and error checking
@@ -118,10 +118,17 @@ def plot_ray_iono_slice(iono_grid, start_range, end_range, range_inc,
 
 
     
-    app = QApplication(sys.argv)
-    screen = app.screens()[0]
-    dpi= screen.physicalDotsPerInch()
-    scrsz = screen.geometry()
+    dpi = 96
+
+    screen_width_in = 16
+    screen_height_in = 9
+
+    class DummyScreen:
+        def width(self): return 1920
+        def height(self): return 1080
+
+    scrsz = DummyScreen()
+
     scrsz_height = int(scrsz.height() * 0.6)
     scrsz_width = int(scrsz.width() * 0.9)
     op_sys = platform.system()
@@ -175,7 +182,7 @@ def plot_ray_iono_slice(iono_grid, start_range, end_range, range_inc,
     iono_Y = np.multiply(rt, np.cos(theta))
     
     #M plot the ionospheric slice
-    fig = plt.figure(figsize=(screen_width_in, screen_height_in))
+    fig = plt.figure(figsize=(12, 8), dpi=100)
     ax = fig.add_axes([0, 0.25, .95, 0.5])
     l, b, w, h = ax.get_position().bounds
     ax.axis('off')  # turn off rectangler suround box and tic marks

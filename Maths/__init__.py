@@ -16,7 +16,7 @@ from . import eff_coll_freq_ion
 
 from . import ENU2xyz
 from . import gm_freq_offset
-from . import iri2016_firi_interp
+from . import iri2020_firi_interp
 from . import julday
 from . import land_sea
 from . import latlon2raz

@@ -1,9 +1,9 @@
 #M
 #M Name :
-#M   iri2016_firi_interp.m
+#M   iri2020_firi_interp.m
 #M
 #M Purpose :
-#M   Matlab wrapper to the IRI-2016 fortan based empirical model ionosphere,
+#M   Matlab wrapper to the IRI-2020 fortan based empirical model ionosphere,
 #M   using the FIRI rocketsonde-based model for the region below 120 km, and
 #M   interpolating between the FIRI model and the default IRI F layer model.
 #M   For (1) a given user specified R12 index (i.e. ionospheric condition), or 
@@ -16,10 +16,10 @@
 #M   IMPORTANT INFORMATION.  
 #M
 #M Calling sequence :
-#M    1. [iono, iono_extra] = iri2016_firi_interp(lat, lon, R12, UT, ...
+#M    1. [iono, iono_extra] = iri2020_firi_interp(lat, lon, R12, UT, ...
 #M                                 ht_start, ht_step, num_hts)
 #M
-#M    2. [iono, iono_extra] = iri2016_firi_interp(lat, lon, R12, UT, ...
+#M    2. [iono, iono_extra] = iri2020_firi_interp(lat, lon, R12, UT, ...
 #M                                 ht_start, ht_step ,num_hts, iri_options)
 #M
 #M Inputs :
@@ -364,7 +364,7 @@ import scipy.interpolate as sci_int
 
 # function [iono, iono_extra] = iri2016_firi_interp(site_lat, site_lon, R12, ...
 #      UT, start_height, height_step, num_heights, varargin)
-def iri2016_firi_interp(site_lat, site_lon, R12,
+def iri2020_firi_interp(site_lat, site_lon, R12,
       UT, start_height, height_step, num_heights, *varargin):
   
   
@@ -383,10 +383,10 @@ def iri2016_firi_interp(site_lat, site_lon, R12,
   #M override the input iri_options to make sure FIRI D-layer is selected
   iri_options['D_model'] = 'FT-2001'       
   
-  iri2016_arg_str = 'site_lat, site_lon, R12, UT, start_height,' + \
+  iri2020_arg_str = 'site_lat, site_lon, R12, UT, start_height,' + \
 		  'height_step, num_heights, iri_options'
  
-  iricall_str = 'iri2016(' + iri2016_arg_str + ')'
+  iricall_str = 'iri2020(' + iri2020_arg_str + ')'
 
   iono, iono_extra = eval(iricall_str)
    

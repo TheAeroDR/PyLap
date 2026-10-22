@@ -69,7 +69,7 @@ Created on Fri Jun 12 20:49:47 2020
 
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('QtAgg')
 import matplotlib.pyplot as plt
 import sys
 import platform
@@ -83,7 +83,7 @@ def plot_test(iono_grid, start_range, end_range, range_inc,
     #
     #
     #
-    matplotlib.use('TkAgg')
+    matplotlib.use('QtAgg')
     #
     #   
     #M

@@ -146,14 +146,12 @@ from Maths import earth_radius_wgs84
 from Maths import wgs842gc_lat
 from Maths import raz2latlon
 from Maths import eff_coll_freq
-from Maths import iri2016_firi_interp
+from Maths import iri2020_firi_interp
 from pylap.dop_spread_eq import dop_spread_eq
 from pylap.nrlmsise00 import nrlmsise00
-from pylap.igrf2016 import igrf2016
+from pylap.igrf2020 import igrf2020
 from pylap.irreg_strength import irreg_strength
-from pylap.iri2016 import iri2016
-from pylap.iri2012 import iri2012
-from pylap.iri2007 import iri2007
+from pylap.iri2020 import iri2020
 
 def gen_iono_grid_3d(UT, R12, iono_grid_parms,
                      geomag_grid_parms, doppler_flag, 
@@ -273,7 +271,7 @@ def gen_Bfield_subgrid(lat, B_lon_min, B_lon_inc, B_lon_max,
         for height in range(B_ht_min,B_ht_max+B_ht_inc,B_ht_inc):
             ht_idx = ht_idx + 1
 
-            mag_field = igrf2016(lat, lon, UT, height)
+            mag_field = igrf2020(lat, lon, UT, height)
             field_N = mag_field[0]
             field_E = mag_field[1]
             field_U = -mag_field[2]
@@ -370,11 +368,11 @@ def gen_iono_subgrid(lat, lon_min, lon_inc, lon_max, ht_min, ht_inc,
             num_heights = round((ht_max - ht_min)/ht_inc) + 1
 
 #       % call IRI 2016, with FIRI option on
-            [iono, iono_extra] = iri2016_firi_interp.iri2016_firi_interp(lat, lon, R12, UT, ht_min, ht_inc,
+            [iono, iono_extra] = iri2020_firi_interp.iri2016_firi_interp(lat, lon, R12, UT, ht_min, ht_inc,
 	        num_heights, iri_options)
 
             if doppler_flag:
-                [iono5, iono_extra5] = iri2016_firi_interp.iri2016_firi_interp(lat, lon, R12, UT_5, ht_min, ht_inc,
+                [iono5, iono_extra5] = iri2020_firi_interp.iri2016_firi_interp(lat, lon, R12, UT_5, ht_min, ht_inc,
 	            num_heights, iri_options)
 #           end
 #           % get the electron density (Num electrons per m^3)
