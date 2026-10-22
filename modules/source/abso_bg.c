@@ -90,7 +90,10 @@ static PyObject *abso_bg(PyObject *self, PyObject *args)
     }
   }
 
-  return result;
+  // Cast arrays managed by Python garbage collector back, free ut
+  free(ut);
+
+  return (PyObject *)result;
 }
 
 static PyMethodDef methods[] = {

@@ -206,7 +206,7 @@ static PyObject *raytrace_2d(PyObject *self, PyObject *args)
 
   int *nhops_attempted = (int *)malloc(num_rays * sizeof(int));
   int *npts_in_ray = (int *)malloc(num_rays * sizeof(int));
-  ray_data = (double *)malloc(19 * nhops * num_rays * sizeof(double));
+  ray_data = (double *)malloc(24 * nhops * num_rays * sizeof(double));
   ray_path_data = (double *)malloc(9 * MAX_POINTS_IN_RAY * num_rays * sizeof(double));
 
   int *ray_label = (int *)malloc(nhops * num_rays * sizeof(int));
@@ -244,46 +244,102 @@ static void verifyIonoGrid(PyArrayObject *iono_en_grid, PyArrayObject *iono_en_g
                            PyArrayObject *irreg_grid)
 {
 
-  ASSERT((PyArray_NDIM(iono_en_grid) == 2), PyExc_ValueError,
-         "invalid shape for iono_en_grid");
-  ASSERT((PyArray_NDIM(iono_en_grid_5) == 2), PyExc_ValueError,
-         "invalid shape for iono_en_grid_5");
-  ASSERT((PyArray_NDIM(collision_grid) == 2), PyExc_ValueError,
-         "invalid shape for collision_grid");
-  ASSERT((PyArray_NDIM(irreg_grid) == 2), PyExc_ValueError,
-         "invalid shape for irreg_grid");
+  // ASSERT((PyArray_NDIM(iono_en_grid) == 2), PyExc_ValueError,
+  //        "invalid shape for iono_en_grid");
+  if (!(PyArray_NDIM(iono_en_grid) == 2)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "invalid shape for iono_en_grid");
+    return;
+  }
+  // ASSERT((PyArray_NDIM(iono_en_grid_5) == 2), PyExc_ValueError,
+  //        "invalid shape for iono_en_grid_5");
+  if (!(PyArray_NDIM(iono_en_grid_5) == 2)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "invalid shape for iono_en_grid_5");
+    return;
+  }
+  // ASSERT((PyArray_NDIM(collision_grid) == 2), PyExc_ValueError,
+  //        "invalid shape for collision_grid");
+  if (!(PyArray_NDIM(collision_grid) == 2)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "invalid shape for collision_grid");
+    return;
+  }
+  // ASSERT((PyArray_NDIM(irreg_grid) == 2), PyExc_ValueError,
+  //        "invalid shape for irreg_grid");
+  if (!(PyArray_NDIM(irreg_grid) == 2)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "invalid shape for irreg_grid");
+    return;
+  }
 
   npy_intp *iono_en_grid_shape = PyArray_DIMS(iono_en_grid);
   npy_intp *iono_en_grid_5_shape = PyArray_DIMS(iono_en_grid_5);
   npy_intp *collision_grid_shape = PyArray_DIMS(collision_grid);
   npy_intp *irreg_grid_shape = PyArray_DIMS(irreg_grid);
 
-  ASSERT((
-             iono_en_grid_shape[0] <= max_num_ht &&
-             iono_en_grid_shape[1] <= max_num_rng),
-         PyExc_ValueError, "iono_en_grid is too large");
-  ASSERT((
-             iono_en_grid_5_shape[0] <= max_num_ht &&
-             iono_en_grid_5_shape[1] <= max_num_rng),
-         PyExc_ValueError, "iono_en_grid_5 is too large");
-  ASSERT((
-             collision_grid_shape[0] <= max_num_ht &&
-             collision_grid_shape[1] <= max_num_rng),
-         PyExc_ValueError, "collision_grid is too large");
-  ASSERT((
-             irreg_grid_shape[0] == 4 &&
-             irreg_grid_shape[1] <= max_num_rng),
-         PyExc_ValueError, "irreg_grid is not the correct size");
-
-  ASSERT((
-             iono_en_grid_shape[0] == iono_en_grid_5_shape[0] &&
-             iono_en_grid_shape[0] == collision_grid_shape[0]),
-         PyExc_ValueError, "ionosphere grids have inconsistent row counts");
-  ASSERT((
-             iono_en_grid_shape[1] == iono_en_grid_5_shape[1] &&
-             iono_en_grid_shape[1] == collision_grid_shape[1] &&
-             iono_en_grid_shape[1] == irreg_grid_shape[1]),
-         PyExc_ValueError, "ionosphere grids have inconsistent column counts");
+  // ASSERT((
+  //            iono_en_grid_shape[0] <= max_num_ht &&
+  //            iono_en_grid_shape[1] <= max_num_rng),
+  //        PyExc_ValueError, "iono_en_grid is too large");
+  if (!(iono_en_grid_shape[0] <= max_num_ht &&
+      iono_en_grid_shape[1] <= max_num_rng)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "iono_en_grid is too large");
+    return;
+  }
+  // ASSERT((
+  //            iono_en_grid_5_shape[0] <= max_num_ht &&
+  //            iono_en_grid_5_shape[1] <= max_num_rng),
+  //        PyExc_ValueError, "iono_en_grid_5 is too large");
+  if (!(iono_en_grid_5_shape[0] <= max_num_ht &&
+      iono_en_grid_5_shape[1] <= max_num_rng)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "iono_en_grid_5 is too large");
+    return;
+  }
+  // ASSERT((
+  //            collision_grid_shape[0] <= max_num_ht &&
+  //            collision_grid_shape[1] <= max_num_rng),
+  //        PyExc_ValueError, "collision_grid is too large");
+  if (!(collision_grid_shape[0] <= max_num_ht &&
+      collision_grid_shape[1] <= max_num_rng)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "collision_grid is too large");
+    return;
+  }
+  // ASSERT((
+  //             irreg_grid_shape[0] == 4 &&
+  //             irreg_grid_shape[1] <= max_num_rng),
+  //         PyExc_ValueError, "irreg_grid is not the correct size");
+  if (!(irreg_grid_shape[0] == 4 &&
+      irreg_grid_shape[1] <= max_num_rng)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "irreg_grid is not the correct size");
+    return;
+  }
+  // ASSERT((
+  //            iono_en_grid_shape[0] == iono_en_grid_5_shape[0] &&
+  //            iono_en_grid_shape[0] == collision_grid_shape[0]),
+  //        PyExc_ValueError, "ionosphere grids have inconsistent row counts");
+  if (!(iono_en_grid_5_shape[0] <= max_num_ht &&
+      iono_en_grid_5_shape[1] <= max_num_rng)) {
+    PyErr_SetString(PyExc_ValueError,
+                    "iono_en_grid_5 is too large");
+    return;
+  }
+  // ASSERT((
+  //            iono_en_grid_shape[1] == iono_en_grid_5_shape[1] &&
+  //            iono_en_grid_shape[1] == collision_grid_shape[1] &&
+  //            iono_en_grid_shape[1] == irreg_grid_shape[1]),
+  //        PyExc_ValueError, "ionosphere grids have inconsistent column counts");
+  if (!(iono_en_grid_shape[1] == iono_en_grid_5_shape[1] &&
+      iono_en_grid_shape[1] == collision_grid_shape[1] &&
+      iono_en_grid_shape[1] == irreg_grid_shape[1])) {
+    PyErr_SetString(PyExc_ValueError,
+                    "ionosphere grids have inconsistent column counts");
+    return;
+  }
 }
 
 static PyObject *buildOutput(int num_rays, int *nhops_attempted, int *npts_in_ray, double *ray_data,
@@ -330,7 +386,7 @@ static PyObject *buildOutput(int num_rays, int *nhops_attempted, int *npts_in_ra
       tmp = PyArray_ZEROS(1, nhops_dims, NPY_DOUBLE, 0);
       tmp_data = PyArray_DATA((PyArrayObject *)tmp);
 
-      stepmemcpyd(tmp_data, &ray_data[idx], num_rays * 9,
+      stepmemcpyd(tmp_data, &ray_data[idx], num_rays * 24,
                   nhops_attempted[ray_id]);
       PyDict_SetItemString(py_ray_data, rays_fields[field_id], tmp);
     }

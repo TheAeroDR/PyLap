@@ -132,6 +132,8 @@ static PyObject *nrlmsise00(PyObject *self, PyObject *args)
     free(temp);
   }
 
+  free(ut);
+  
   return PyTuple_Pack(2, densities, temps);
 }
 
